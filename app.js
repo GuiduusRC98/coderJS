@@ -11,7 +11,7 @@ const calcularInteres = (dias, cuotas, importe) => {
   
   while (!SolicitudFinanciacion) {
     genero = prompt("Ingrese si es hombre o mujer");
-    edad = Number(prompt("Ingrese su edad"));
+    edad = Number(prompt("Ingrese su edad (Hombres (mayor o igual a 65) y Mujeres (mayor o igual a 60) no corresponde financiar)"));
   
     if (genero === "hombre" && edad < edadHombre) {
       let dias = Number(prompt("Ingrese qué día es hoy"));
