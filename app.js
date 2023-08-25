@@ -7,7 +7,7 @@ class Producto{
     }
 
     descripcion(){
-        return `===================================\n   \t ID: ${this.id}\t Nombre: ${this.nombre}\t Precio: $${this.precio}\n`;
+        return "===================================\n   \t ID:" +this.id+"\t Nombre:" +this.nombre+"\t Precio: $"+this.precio+"\n";
     }
 }
 
@@ -94,7 +94,7 @@ while (true) {
             let mensaje = "Productos en el carrito:\n";
 
         for (const producto of obl_carrito.listaDeCompras) {
-            mensaje += `${producto.nombre} - Cantidad: ${producto.cantidad}\n`;
+            mensaje += +producto.nombre+ "- Cantidad: "+producto.cantidad+"\n";
         }
 
         alert(mensaje);
@@ -115,4 +115,4 @@ while (true) {
 }
 
 const total = obl_carrito.calcular_total();
-alert(`El total de la compra es: $${total}`);
+alert("El total de la compra es: $"+total );
