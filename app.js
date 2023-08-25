@@ -26,7 +26,8 @@ class Carrito{
             this.listaDeCompras.push(producto);
         }
     }
-    eliminar(producto, cantidad){
+    /* Proximo para ver y consultar en clases */
+/*     eliminar(producto, cantidad){
         const i = this.listaDeCompras.findIndex(item => item.id === id);
         if (i !== -1) {
             this.listaDeCompras.splice(i, 1);
@@ -35,7 +36,7 @@ class Carrito{
             alert("Producto no encontrado en el carrito.");
         
         }
-    }
+    } */
 
     calcular_total(){
         return this.listaDeCompras.reduce( (acumulador, producto)=> acumulador + producto.precio * producto.cantidad , 0 )
@@ -86,20 +87,20 @@ while (true) {
     }
     
     if (entrada === 'carrito') {
-        let cantidadTotalProductos = 0;
-        let cantidadTotalUnidades = 0;
+        
+        if (obl_carrito.listaDeCompras.length === 0) {
+            alert("El carrito está vacío.");
+        } else {
+            let mensaje = "Productos en el carrito:\n";
 
-       
         for (const producto of obl_carrito.listaDeCompras) {
-            cantidadTotalProductos++;
-            cantidadTotalUnidades += producto.cantidad;
+            mensaje += `${producto.nombre} - Cantidad: ${producto.cantidad}\n`;
         }
 
-        alert(`Cantidad total de productos en el carrito: ${cantidadTotalProductos}\nCantidad total de unidades en el carrito: ${cantidadTotalUnidades}`);
-        continue;
+        alert(mensaje);
     }
-
-
+    continue;
+}
     const productoId = parseInt(entrada);
     const cantidad = parseInt(prompt("Ingrese la cantidad:"));
 
