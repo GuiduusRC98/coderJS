@@ -81,7 +81,7 @@ cp.agregar(p3);
 alert(cp.mostrar());
 
 while (true) {
-    const entrada = prompt("Ingrese el ID del producto (o escriba 'total' para terminar, 'catalogo' para ver los productos, o 'carrito' para ver el carrito):");
+    const entrada = prompt("Ingrese el ID del producto: \n\n\tEscriba 'total' para terminar y abonar.\n\tEscriba 'catalogo' para ver los productos nuevamente.\n\tEscriba 'carrito' para ver el carrito.\n\tEscriba 'eliminar' para quitar un producto del carrito.");
 
     if (entrada === 'catalogo') {
         alert(cp.mostrar());
@@ -89,7 +89,16 @@ while (true) {
     } else if (entrada === 'total') {
         break;
     } else if (entrada === 'carrito') {
-
+        if (obl_carrito.listaDeCompras.length === 0) {
+            alert("El carrito está vacío.");
+        } else {
+            let mensaje = "Productos en el carrito:\n";
+            for (const producto of obl_carrito.listaDeCompras) {
+                mensaje += producto.nombre + "- Cantidad: " + producto.cantidad + "\n";
+            }
+            alert(mensaje);
+        }
+    
     } else if (entrada === 'eliminar') {
         const productoIdAEliminar = parseInt(prompt("Ingrese el ID del producto que desea eliminar:"));
         const productoAEliminar = obl_carrito.listaDeCompras.find(item => item.id === productoIdAEliminar);
