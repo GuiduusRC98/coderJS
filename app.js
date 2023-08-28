@@ -81,7 +81,7 @@ cp.agregar(p3);
 alert(cp.mostrar());
 
 while (true) {
-    const entrada = prompt("Ingrese el ID del producto: \n\n\tEscriba 'total' para terminar y abonar.\n\tEscriba 'catalogo' para ver los productos nuevamente.\n\tEscriba 'carrito' para ver el carrito.\n\tEscriba 'eliminar' para quitar un producto del carrito.");
+    const entrada = prompt("Ingrese el ID del producto: \n\n\tEscriba 'total' para terminar y abonar.\n\tEscriba 'catalogo' para ver los productos nuevamente.\n\tEscriba 'carrito' para ver el carrito.\n\tEscriba 'eliminar' para quitar un producto del carrito.").toLowerCase();
 
     if (entrada === 'catalogo') {
         alert(cp.mostrar());
