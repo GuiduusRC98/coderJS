@@ -19,48 +19,30 @@ class Carrito{
     agregar = (producto, cantidad) => {
         const itemEnCarrito = this.listaDeCompras.find(item => item.id === producto.id);
 
-        switch (true) {
-            case itemEnCarrito !== undefined:
-                itemEnCarrito.cantidad += cantidad;
-                break;
-            default:
-                producto.cantidad = cantidad;
-                this.listaDeCompras.push(producto);
-                break;
+        if (itemEnCarrito) {
+            itemEnCarrito.cantidad += cantidad;
+        } else {
+            producto.cantidad = cantidad;
+            this.listaDeCompras.push(producto);
         }
-        
     }
 
     eliminar = (producto, cantidad) => {
         const index = this.listaDeCompras.findIndex(item => item.id === producto.id);
-    
-        switch (true) {
-            case index !== -1:
-                if (this.listaDeCompras[index].cantidad <= cantidad) {
-                    this.listaDeCompras.splice(index, 1);
-                } else {
-                    this.listaDeCompras[index].cantidad -= cantidad;
-                }
-                break;
-            default:
-                console.log("Producto no encontrado en el carrito.");
-                break;
-        }
-    }
-    
-        
-    
-    /* Proximo para ver y consultar en clases */
-/*     eliminar(producto, cantidad){
-        const i = this.listaDeCompras.findIndex(item => item.id === id);
-        if (i !== -1) {
-            this.listaDeCompras.splice(i, 1);
-            alert("Producto eliminado del carrito.");
+
+        if (index !== -1) {
+            if (this.listaDeCompras[index].cantidad <= cantidad) {
+                
+                this.listaDeCompras.splice(index, 1);
+            } else {
+                
+                this.listaDeCompras[index].cantidad -= cantidad;
+            }
         } else {
             alert("Producto no encontrado en el carrito.");
-        
         }
-    } */
+    }
+
 
     calcular_total = () => {
         return this.listaDeCompras.reduce( (acumulador, producto)=> acumulador + producto.precio * producto.cantidad , 0 )
@@ -101,35 +83,37 @@ alert(cp.mostrar());
 while (true) {
     const entrada = prompt("Ingrese el ID del producto (o escriba 'total' para terminar, 'catalogo' para ver los productos, o 'carrito' para ver el carrito):");
 
-    switch (entrada) {
-        case 'catalogo':
-            alert(cp.mostrar());
-            continue;
-        case 'total':
-            break;
-        case 'carrito':
-            if (obl_carrito.listaDeCompras.length === 0) {
-                alert("El carrito está vacío.");
-            } else {
-                let mensaje = "Productos en el carrito:\n";
+    if (entrada === 'catalogo') {
+        alert(cp.mostrar());
+        continue;
+    } else if (entrada === 'total') {
+        break;
+    } else if (entrada === 'carrito') {
+
+    } else if (entrada === 'eliminar') {
+        const productoIdAEliminar = parseInt(prompt("Ingrese el ID del producto que desea eliminar:"));
+        const productoAEliminar = obl_carrito.listaDeCompras.find(item => item.id === productoIdAEliminar);
+        if (productoAEliminar) {
+            const cantidadAEliminar = parseInt(prompt("Ingrese la cantidad que desea eliminar:"));
+            obl_carrito.eliminar(productoAEliminar, cantidadAEliminar);
+            alert("Producto eliminado del carrito.");
+        } else {
+            alert("El producto no se encontró en el carrito.");
+        }
+        continue;
+       
+    } else {
+        const productoId = parseInt(entrada);
+        const cantidad = parseInt(prompt("Ingrese la cantidad:"));
     
-                for (const producto of obl_carrito.listaDeCompras) {
-                    mensaje += producto.nombre + "- Cantidad: " + producto.cantidad + "\n";
-                }
+        const productoSeleccionado = cp.listaDeProducto.find(producto => producto.id === productoId);
     
-                alert(mensaje);
-            }
-            break;
-        default:
-            const productoId = parseInt(entrada);
-            const cantidad = parseInt(prompt("Ingrese la cantidad:"));
-    
-            const productoSeleccionado = cp.listaDeProducto.find(producto => producto.id === productoId);
-    
-            productoSeleccionado
-                ? (obl_carrito.agregar(productoSeleccionado, cantidad), alert("Producto agregado al carrito."))
-                : alert("Producto no encontrado.");
-            break;
+        if (productoSeleccionado) {
+            obl_carrito.agregar(productoSeleccionado, cantidad);
+            alert("Producto agregado al carrito.");
+        } else {
+            alert("Producto no encontrado.");
+        }
     }
 }
 
