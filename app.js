@@ -6,9 +6,9 @@ class Producto{
         this.cantidad = 1;
     }
 
-    descripcion(){
-        return "===================================\n   \t ID:" +this.id+"\t Nombre:" +this.nombre+"\t Precio: $"+this.precio+"\n";
-    }
+    descripcion = () => {
+        return "===================================\n   \t ID:" + this.id + "\t Nombre:" + this.nombre + "\t Precio: $" + this.precio + "\n";
+    };
 }
 
 class Carrito{
@@ -16,16 +16,40 @@ class Carrito{
         this.listaDeCompras = []
     }
 
-    agregar(producto, cantidad) {
+    agregar = (producto, cantidad) => {
         const itemEnCarrito = this.listaDeCompras.find(item => item.id === producto.id);
 
-        if (itemEnCarrito) {
-            itemEnCarrito.cantidad += cantidad;
-        } else {
-            producto.cantidad = cantidad;
-            this.listaDeCompras.push(producto);
+        switch (true) {
+            case itemEnCarrito !== undefined:
+                itemEnCarrito.cantidad += cantidad;
+                break;
+            default:
+                producto.cantidad = cantidad;
+                this.listaDeCompras.push(producto);
+                break;
+        }
+        
+    }
+
+    eliminar = (producto, cantidad) => {
+        const index = this.listaDeCompras.findIndex(item => item.id === producto.id);
+    
+        switch (true) {
+            case index !== -1:
+                if (this.listaDeCompras[index].cantidad <= cantidad) {
+                    this.listaDeCompras.splice(index, 1);
+                } else {
+                    this.listaDeCompras[index].cantidad -= cantidad;
+                }
+                break;
+            default:
+                console.log("Producto no encontrado en el carrito.");
+                break;
         }
     }
+    
+        
+    
     /* Proximo para ver y consultar en clases */
 /*     eliminar(producto, cantidad){
         const i = this.listaDeCompras.findIndex(item => item.id === id);
@@ -38,7 +62,7 @@ class Carrito{
         }
     } */
 
-    calcular_total(){
+    calcular_total = () => {
         return this.listaDeCompras.reduce( (acumulador, producto)=> acumulador + producto.precio * producto.cantidad , 0 )
     }
 }
@@ -48,11 +72,11 @@ class ProductoController{
         this.listaDeProducto = []
     }
 
-    agregar(producto){
+    agregar = (producto) => {
         this.listaDeProducto.push(producto)
     }
 
-    mostrar(){
+    mostrar = () => {
         let acumuladora_description = ""
         this.listaDeProducto.forEach( producto => {
             acumuladora_description = acumuladora_description + producto.descripcion()
@@ -77,40 +101,35 @@ alert(cp.mostrar());
 while (true) {
     const entrada = prompt("Ingrese el ID del producto (o escriba 'total' para terminar, 'catalogo' para ver los productos, o 'carrito' para ver el carrito):");
 
-    if (entrada === 'catalogo') {
-        alert(cp.mostrar());
-        continue;
-    }
+    switch (entrada) {
+        case 'catalogo':
+            alert(cp.mostrar());
+            continue;
+        case 'total':
+            break;
+        case 'carrito':
+            if (obl_carrito.listaDeCompras.length === 0) {
+                alert("El carrito está vacío.");
+            } else {
+                let mensaje = "Productos en el carrito:\n";
     
-    if (entrada === 'total') {
-        break;
-    }
+                for (const producto of obl_carrito.listaDeCompras) {
+                    mensaje += producto.nombre + "- Cantidad: " + producto.cantidad + "\n";
+                }
     
-    if (entrada === 'carrito') {
-        
-        if (obl_carrito.listaDeCompras.length === 0) {
-            alert("El carrito está vacío.");
-        } else {
-            let mensaje = "Productos en el carrito:\n";
-
-        for (const producto of obl_carrito.listaDeCompras) {
-            mensaje += +producto.nombre+ "- Cantidad: "+producto.cantidad+"\n";
-        }
-
-        alert(mensaje);
-    }
-    continue;
-}
-    const productoId = parseInt(entrada);
-    const cantidad = parseInt(prompt("Ingrese la cantidad:"));
-
-    const productoSeleccionado = cp.listaDeProducto.find(producto => producto.id === productoId);
-
-    if (productoSeleccionado) {
-        obl_carrito.agregar(productoSeleccionado, cantidad);
-        alert("Producto agregado al carrito.");
-    } else {
-        alert("Producto no encontrado.");
+                alert(mensaje);
+            }
+            break;
+        default:
+            const productoId = parseInt(entrada);
+            const cantidad = parseInt(prompt("Ingrese la cantidad:"));
+    
+            const productoSeleccionado = cp.listaDeProducto.find(producto => producto.id === productoId);
+    
+            productoSeleccionado
+                ? (obl_carrito.agregar(productoSeleccionado, cantidad), alert("Producto agregado al carrito."))
+                : alert("Producto no encontrado.");
+            break;
     }
 }
 
